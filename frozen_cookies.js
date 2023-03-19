@@ -6,7 +6,7 @@ if (Game.version > lastCompatibleVersion) {
   );
   console.log(
     "This version of Frozen Cookies has only been tested through Cookie Clicker version " +
-      lastCompatibleVersion
+    lastCompatibleVersion
   );
   console.log(
     "There may be incompatibilities, undesirable effects, bugs, shifts in reality, immoral behavior, and who knows what else."
@@ -17,9 +17,9 @@ var scriptElement =
   document.getElementById("frozenCookieScript") !== null
     ? document.getElementById("frozenCookieScript")
     : document.getElementById("modscript_frozen_cookies");
-var baseUrl =  scriptElement !== null
-    ? scriptElement.getAttribute("src").replace(/\/frozen_cookies\.js$/, "")
-    : "https://icehawk78.github.io/FrozenCookies/";
+var baseUrl = scriptElement !== null
+  ? scriptElement.getAttribute("src").replace(/\/frozen_cookies\.js$/, "")
+  : "https://lequinharay.github.io/FrozenCookies/";
 var FrozenCookies = {
   baseUrl: baseUrl,
   branch: "Main-",
