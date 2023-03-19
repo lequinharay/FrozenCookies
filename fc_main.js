@@ -2735,8 +2735,8 @@ function autoGodzamokAction() {
         !Game.hasBuff("Devastation")
       ) {
         Game.Objects["Farm"].sell(countFarm);
-        Game.Objects["Mine"].sell(countMine);
-        Game.Objects["Factory"].sell(countFactory);
+        // Game.Objects["Mine"].sell(countMine);
+        // Game.Objects["Factory"].sell(countFactory);
 
         if (FrozenCookies.autoBuy == 1) {
           safeBuy(Game.Objects["Farm"], countFarm);
