@@ -74,10 +74,10 @@ function registerMod(mod_id = "frozen_cookies") {
   logEvent(
     "Load",
     "Initial Load of Frozen Cookies v " +
-      FrozenCookies.branch +
-      "." +
-      FrozenCookies.version +
-      ". (You should only ever see this once.)"
+    FrozenCookies.branch +
+    "." +
+    FrozenCookies.version +
+    ". (You should only ever see this once.)"
   );
 }
 
@@ -173,23 +173,23 @@ function setOverrides(gameSaveData) {
   // Replace Game.Popup references with event logging
   eval(
     "Game.shimmerTypes.golden.popFunc = " +
-      Game.shimmerTypes.golden.popFunc
-        .toString()
-        .replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);')
+    Game.shimmerTypes.golden.popFunc
+      .toString()
+      .replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);')
   );
   eval(
     "Game.UpdateWrinklers = " +
-      Game.UpdateWrinklers.toString().replace(
-        /Game\.Popup\((.+)\)\;/g,
-        'logEvent("Wrinkler", $1, true);'
-      )
+    Game.UpdateWrinklers.toString().replace(
+      /Game\.Popup\((.+)\)\;/g,
+      'logEvent("Wrinkler", $1, true);'
+    )
   );
   eval(
     "FrozenCookies.safeGainsCalc = " +
-      Game.CalculateGains.toString()
-        .replace(/eggMult\+=\(1.+/, "eggMult++; // CENTURY EGGS SUCK")
-        .replace(/Game\.cookiesPs/g, "FrozenCookies.calculatedCps")
-        .replace(/Game\.globalCpsMult/g, "mult")
+    Game.CalculateGains.toString()
+      .replace(/eggMult\+=\(1.+/, "eggMult++; // CENTURY EGGS SUCK")
+      .replace(/Game\.cookiesPs/g, "FrozenCookies.calculatedCps")
+      .replace(/Game\.globalCpsMult/g, "mult")
   );
 
   // Give free achievements!
@@ -221,7 +221,7 @@ function setOverrides(gameSaveData) {
     FrozenCookies.frenzyTimes =
       JSON.parse(
         FrozenCookies.loadedData["frenzyTimes"] ||
-          localStorage.getItem("frenzyTimes")
+        localStorage.getItem("frenzyTimes")
       ) || {};
     //  FrozenCookies.non_gc_time = Number(FrozenCookies.loadedData['nonFrenzyTime']) || Number(localStorage.getItem('nonFrenzyTime')) || 0;
     //  FrozenCookies.gc_time = Number(FrozenCookies.loadedData['frenzyTime']) || Number(localStorage.getItem('frenzyTime')) || 0;;
@@ -424,8 +424,8 @@ function fcDraw(from, text, origin) {
       text = text.replace(
         /\+\d+\%/,
         "+" +
-          Math.round((Game.hasBuff("Devastation").multClick - 1) * 100) +
-          "%"
+        Math.round((Game.hasBuff("Devastation").multClick - 1) * 100) +
+        "%"
       );
     }
   }
@@ -554,8 +554,8 @@ document.addEventListener("keydown", function (event) {
       Game.Notify(
         "Wrinkler Info",
         "Popping all wrinklers will give you " +
-          Beautify(wrinklerValue()) +
-          ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>',
+        Beautify(wrinklerValue()) +
+        ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>',
         [19, 8],
         7
       );
@@ -568,98 +568,98 @@ function writeFCButton(setting) {
 }
 
 function userInputPrompt(title, description, existingValue, callback) {
-    Game.Prompt(`<h3>${title}</h3><div class="block" style="text-align:center;">${description}</div><div class="block"><input type="text" style="text-align:center;width:100%;" id="fcGenericInput" value="${existingValue}"/></div>`,
-        [
-            'Confirm',
-            'Cancel'
-        ]);
-    $('#promptOption0').click(() => {callback(l('fcGenericInput').value)});
-    l('fcGenericInput').focus();
-    l('fcGenericInput').select();
+  Game.Prompt(`<h3>${title}</h3><div class="block" style="text-align:center;">${description}</div><div class="block"><input type="text" style="text-align:center;width:100%;" id="fcGenericInput" value="${existingValue}"/></div>`,
+    [
+      'Confirm',
+      'Cancel'
+    ]);
+  $('#promptOption0').click(() => { callback(l('fcGenericInput').value) });
+  l('fcGenericInput').focus();
+  l('fcGenericInput').select();
 }
 
 function validateNumber(value, minValue = null, maxValue = null) {
-    if (typeof value == "undefined" ||
-      value == null) {
-          return false;
-    }
-    const numericValue = Number(value);
-    return !isNaN(numericValue) &&
-      (minValue == null || numericValue >= minValue) &&
-      (maxValue == null || numericValue <= maxValue);
+  if (typeof value == "undefined" ||
+    value == null) {
+    return false;
+  }
+  const numericValue = Number(value);
+  return !isNaN(numericValue) &&
+    (minValue == null || numericValue >= minValue) &&
+    (maxValue == null || numericValue <= maxValue);
 }
 
 function storeNumberCallback(base, min, max) {
-    return (result) => {
-        if (!validateNumber(result, min, max)) {
-            result = FrozenCookies[base];
-        }
-        FrozenCookies[base] = Number(result);
-        FCStart();
+  return (result) => {
+    if (!validateNumber(result, min, max)) {
+      result = FrozenCookies[base];
     }
+    FrozenCookies[base] = Number(result);
+    FCStart();
+  }
 }
 
 function updateSpeed(base) {
-    userInputPrompt(
-        'Autoclicking!',
-        "How many times per second do you want to click? (Current maximum is 250 clicks per second)",
-        FrozenCookies[base],
-        storeNumberCallback(base, 0, 250)
-    );
+  userInputPrompt(
+    'Autoclicking!',
+    "How many times per second do you want to click? (Current maximum is 250 clicks per second)",
+    FrozenCookies[base],
+    storeNumberCallback(base, 0, 250)
+  );
 }
 
 function updateCpSMultMin(base) {
-    userInputPrompt(
-        'Autocasting!',
-        'What CpS multiplier should trigger Auto Casting (e.g. "7" will trigger when you have full mana and a Frenzy, "1" prevents triggering during a clot, etc.)?',
-        FrozenCookies[base],
-        storeNumberCallback(base, 0)
-    );
+  userInputPrompt(
+    'Autocasting!',
+    'What CpS multiplier should trigger Auto Casting (e.g. "7" will trigger when you have full mana and a Frenzy, "1" prevents triggering during a clot, etc.)?',
+    FrozenCookies[base],
+    storeNumberCallback(base, 0)
+  );
 }
 
 function updateAscendAmount(base) {
-    userInputPrompt(
-        'Autoascending!',
-        'How many heavenly chips do you want to auto-ascend at?',
-        FrozenCookies[base],
-        storeNumberCallback(base, 1)
-    );
+  userInputPrompt(
+    'Autoascending!',
+    'How many heavenly chips do you want to auto-ascend at?',
+    FrozenCookies[base],
+    storeNumberCallback(base, 1)
+  );
 }
 
 function updateManaMax(base) {
-    userInputPrompt(
-        'Mana Cap!',
-        'Choose a maximum mana amount',
-        FrozenCookies[base],
-        storeNumberCallback(base, 0)
-    );
+  userInputPrompt(
+    'Mana Cap!',
+    'Choose a maximum mana amount',
+    FrozenCookies[base],
+    storeNumberCallback(base, 0)
+  );
 }
 
 function updateMaxSpecials(base) {
-    userInputPrompt(
-        'Harvest Bank!',
-        'Set amount of stacked Building specials for Harvest Bank',
-        FrozenCookies[base],
-        storeNumberCallback(base, 0)
-    );
+  userInputPrompt(
+    'Harvest Bank!',
+    'Set amount of stacked Building specials for Harvest Bank',
+    FrozenCookies[base],
+    storeNumberCallback(base, 0)
+  );
 }
 
 function updateCursorMax(base) {
-    userInputPrompt(
-        'Cursor Cap!',
-        'How many Cursors should Autobuy stop at?',
-        FrozenCookies[base],
-        storeNumberCallback(base, 0)
-    );
+  userInputPrompt(
+    'Cursor Cap!',
+    'How many Cursors should Autobuy stop at?',
+    FrozenCookies[base],
+    storeNumberCallback(base, 0)
+  );
 }
 
 function updateFarmMax(base) {
-    userInputPrompt(
-        'Farm Cap!',
-        'How many Farms should Autobuy stop at?',
-        FrozenCookies[base],
-        storeNumberCallback(base, 0)
-    );
+  userInputPrompt(
+    'Farm Cap!',
+    'How many Farms should Autobuy stop at?',
+    FrozenCookies[base],
+    storeNumberCallback(base, 0)
+  );
 
 }
 
@@ -669,7 +669,7 @@ function updateTimeTravelAmount() {
     "Warning: Time travel is highly unstable, and large values are highly likely to either cause long delays or crash the game. Be careful!\nHow much do you want to time travel by? This will happen instantly.",
     FrozenCookies.timeTravelAmount,
     storeNumberCallback('timeTravelAmount', 0)
-);
+  );
 }
 
 function cyclePreference(preferenceName) {
@@ -758,7 +758,7 @@ function autoRigidel() {
   switch (orderLvl) {
     case 0: //Rigidel isn't in a slot
       if (T.swaps < 2 || (T.swaps == 1 && T.slot[0] == -1)) return; //Don't do anything if we can't swap Rigidel in
-      if (timeToRipe < 60) {
+      if (timeToRipe < 59) {
         var prev = T.slot[0]; //cache whatever god you have equipped
         swapIn(10, 0); //swap in rigidel
         Game.computeLumpTimes();
@@ -767,19 +767,19 @@ function autoRigidel() {
         if (prev != -1) swapIn(prev, 0); //put the old one back
       }
     case 1: //Rigidel is already in diamond slot
-      if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
+      if (timeToRipe < 59 && Game.BuildingsOwned % 10) {
         rigiSell();
         Game.computeLumpTimes();
         Game.clickLump();
       }
     case 2: //Rigidel in Ruby slot,
-      if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
+      if (timeToRipe < 39 && Game.BuildingsOwned % 10) {
         rigiSell();
         Game.computeLumpTimes();
         Game.clickLump();
       }
     case 3: //Rigidel in Jade slot
-      if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
+      if (timeToRipe < 19 && Game.BuildingsOwned % 10) {
         rigiSell();
         Game.computeLumpTimes();
         Game.clickLump();
@@ -841,11 +841,11 @@ function autoCast() {
             logEvent(
               "Store",
               "Sold 1 Idleverse for " +
-                (Beautify(
-                  Game.Objects["Idleverse"].price *
-                    Game.Objects["Idleverse"].getSellMultiplier()
-                ) +
-                  " cookies")
+              (Beautify(
+                Game.Objects["Idleverse"].price *
+                Game.Objects["Idleverse"].getSellMultiplier()
+              ) +
+                " cookies")
             );
           }
           M.castSpell(SE);
@@ -928,7 +928,7 @@ function cumulativeProbability(listType, start, stop) {
   return (
     1 -
     (1 - getProbabilityList(listType)[stop]) /
-      (1 - getProbabilityList(listType)[start])
+    (1 - getProbabilityList(listType)[start])
   );
 }
 
@@ -1263,7 +1263,7 @@ function chocolateValue(bankAmount, earthShatter) {
               1,
               (b == highestBuilding ? b.amount : b.amount + 1) - b.free
             ) *
-              sellRatio
+            sellRatio
           );
         }, 0));
   }
@@ -1336,10 +1336,10 @@ function chainBank() {
     4 *
     Math.floor(
       (digit / 9) *
-        Math.pow(
-          10,
-          Math.floor(Math.log((194400 * baseCps()) / digit) / Math.LN10)
-        )
+      Math.pow(
+        10,
+        Math.floor(Math.log((194400 * baseCps()) / digit) / Math.LN10)
+      )
     )
   );
   //  return baseCps() * 60 * 60 * 6 * 4;
@@ -1607,20 +1607,20 @@ function checkPrices(currentUpgrade) {
         : null;
     nextRec =
       nextPrereq == null ||
-      nextPrereq.filter(function (u) {
-        return u.cost != null;
-      }).length == 0
+        nextPrereq.filter(function (u) {
+          return u.cost != null;
+        }).length == 0
         ? nextRec
         : FrozenCookies.caches.recommendationList.filter(function (a) {
-            return nextPrereq.some(function (b) {
-              return b.id == a.id && b.type == a.type;
-            });
-          })[0];
+          return nextPrereq.some(function (b) {
+            return b.id == a.id && b.type == a.type;
+          });
+        })[0];
     value =
       nextRec.cost == null
         ? 0
         : nextRec.cost / totalDiscount(nextRec.type == "building") -
-          nextRec.cost;
+        nextRec.cost;
   }
   return value;
 }
@@ -1646,8 +1646,8 @@ function recommendationList(recalculate) {
           return a.efficiency != b.efficiency
             ? a.efficiency - b.efficiency
             : a.delta_cps != b.delta_cps
-            ? b.delta_cps - a.delta_cps
-            : a.cost - b.cost;
+              ? b.delta_cps - a.delta_cps
+              : a.cost - b.cost;
         })
     );
     if (FrozenCookies.pastemode) {
@@ -1845,11 +1845,11 @@ function upgradeStats(recalculate) {
           var baseDeltaCps = baseCpsNew - baseCpsOrig;
           var efficiency =
             current.season &&
-            current.season == seasons[FrozenCookies.defaultSeason]
+              current.season == seasons[FrozenCookies.defaultSeason]
               ? cost / baseCpsOrig
               : priceReduction > cost
-              ? 1
-              : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig);
+                ? 1
+                : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig);
           return {
             id: current.id,
             efficiency: efficiency,
@@ -1910,24 +1910,24 @@ function santaStats() {
   return Game.Has("A festive hat") &&
     Game.santaLevel + 1 < Game.santaLevels.length
     ? {
+      id: 0,
+      efficiency: Infinity,
+      base_delta_cps: 0,
+      delta_cps: 0,
+      cost: cumulativeSantaCost(1),
+      type: "santa",
+      purchase: {
         id: 0,
-        efficiency: Infinity,
-        base_delta_cps: 0,
-        delta_cps: 0,
-        cost: cumulativeSantaCost(1),
-        type: "santa",
-        purchase: {
-          id: 0,
-          name:
-            "Santa Stage Upgrade (" +
-            Game.santaLevels[(Game.santaLevel + 1) % Game.santaLevels.length] +
-            ")",
-          buy: buySanta,
-          getCost: function () {
-            return cumulativeSantaCost(1);
-          },
+        name:
+          "Santa Stage Upgrade (" +
+          Game.santaLevels[(Game.santaLevel + 1) % Game.santaLevels.length] +
+          ")",
+        buy: buySanta,
+        getCost: function () {
+          return cumulativeSantaCost(1);
         },
-      }
+      },
+    }
     : [];
 }
 
@@ -1942,7 +1942,7 @@ function defaultPurchase() {
     purchase: {
       id: 0,
       name: "No valid purchases!",
-      buy: function () {},
+      buy: function () { },
       getCost: function () {
         return Infinity;
       },
@@ -2322,15 +2322,15 @@ function viewStatGraphs() {
   var containerDiv = $("#statGraphContainer").length
     ? $("#statGraphContainer")
     : $("<div>")
-        .attr("id", "statGraphContainer")
-        .html($("<div>").attr("id", "statGraphs"))
-        .appendTo("body")
-        .dialog({
-          modal: true,
-          title: "Frozen Cookies Tracked Stats",
-          width: $(window).width() * 0.8,
-          height: $(window).height() * 0.8,
-        });
+      .attr("id", "statGraphContainer")
+      .html($("<div>").attr("id", "statGraphs"))
+      .appendTo("body")
+      .dialog({
+        modal: true,
+        title: "Frozen Cookies Tracked Stats",
+        width: $(window).width() * 0.8,
+        height: $(window).height() * 0.8,
+      });
   if (containerDiv.is(":hidden")) {
     containerDiv.dialog();
   }
@@ -2501,8 +2501,8 @@ function fcWin(what) {
           logEvent(
             "Achievement",
             "Achievement unlocked :<br>" +
-              Game.Achievements[what].name +
-              "<br> ",
+            Game.Achievements[what].name +
+            "<br> ",
             true
           );
         }
@@ -2510,8 +2510,8 @@ function fcWin(what) {
           Game.Notify(
             "Achievement unlocked",
             '<div class="title" style="font-size:18px;margin-top:-2px;">' +
-              achname +
-              "</div>",
+            achname +
+            "</div>",
             Game.Achievements[what].icon
           );
           if (App && Game.Achievements[what].vanilla) App.gotAchiev(Game.Achievements[what].id);
@@ -2574,8 +2574,8 @@ function smartTrackingStats(delay) {
       FrozenCookies.delayPurchaseCount == 0
         ? 1 / 1.5
         : delay > FrozenCookies.minDelay
-        ? 2
-        : 1;
+          ? 2
+          : 1;
     FrozenCookies.smartTrackingBot = setTimeout(function () {
       smartTrackingStats(delay);
     }, delay);
@@ -2645,8 +2645,8 @@ function shouldPopWrinklers() {
             if (
               current.total < nextRecNeeded &&
               effectiveCps(delay, Game.elderWrath, futureWrinklers) +
-                nextRecCps >
-                effectiveCps()
+              nextRecCps >
+              effectiveCps()
             ) {
               current.ids.push(w.id);
               current.total += popValue(w);
@@ -2722,7 +2722,7 @@ function autoGodzamokAction() {
     // if Pantheon is here and autoGodzamok is set
     if (
       Game.hasGod("ruin") &&
-      (Game.Objects["Farm"].amount > 10 || Game.Objects["Mine"].amount > 10  || Game.Objects["Factory"].amount > 10)
+      (Game.Objects["Farm"].amount > 10 || Game.Objects["Mine"].amount > 10 || Game.Objects["Factory"].amount > 10)
     ) {
       var countFarm = Game.Objects["Farm"].amount - 1;
       var countMine = Game.Objects["Mine"].amount - 1;
@@ -2870,12 +2870,12 @@ function autoCookie() {
       logEvent(
         "Store",
         "Autobought " +
-          recommendation.purchase.name +
-          " for " +
-          Beautify(recommendation.cost) +
-          ", resulting in " +
-          Beautify(recommendation.delta_cps) +
-          " CPS."
+        recommendation.purchase.name +
+        " for " +
+        Beautify(recommendation.cost) +
+        ", resulting in " +
+        Beautify(recommendation.delta_cps) +
+        " CPS."
       );
       disabledPopups = true;
       if (FrozenCookies.autobuyCount >= 10) {
@@ -2891,9 +2891,9 @@ function autoCookie() {
       var currPrestige = Game.prestige;
       var resetPrestige = Game.HowMuchPrestige(
         Game.cookiesReset +
-          Game.cookiesEarned +
-          wrinklerValue() +
-          chocolateValue()
+        Game.cookiesEarned +
+        wrinklerValue() +
+        chocolateValue()
       );
       var ascendChips = FrozenCookies.HCAscendAmount;
       if (resetPrestige - currPrestige >= ascendChips && ascendChips > 0) {
@@ -2953,11 +2953,11 @@ function autoCookie() {
           logEvent(
             "HC",
             "Won " +
-              FrozenCookies.hc_gain +
-              " heavenly chips during Frenzy. Rate: " +
-              (FrozenCookies.hc_gain * 1000) /
-                (Date.now() - FrozenCookies.hc_gain_time) +
-              " HC/s."
+            FrozenCookies.hc_gain +
+            " heavenly chips during Frenzy. Rate: " +
+            (FrozenCookies.hc_gain * 1000) /
+            (Date.now() - FrozenCookies.hc_gain_time) +
+            " HC/s."
           );
           FrozenCookies.hc_gain_time = Date.now();
           FrozenCookies.hc_gain = 0;
@@ -2972,11 +2972,11 @@ function autoCookie() {
           logEvent(
             "HC",
             "Won " +
-              FrozenCookies.hc_gain +
-              " heavenly chips outside of Frenzy. Rate: " +
-              (FrozenCookies.hc_gain * 1000) /
-                (Date.now() - FrozenCookies.hc_gain_time) +
-              " HC/s."
+            FrozenCookies.hc_gain +
+            " heavenly chips outside of Frenzy. Rate: " +
+            (FrozenCookies.hc_gain * 1000) /
+            (Date.now() - FrozenCookies.hc_gain_time) +
+            " HC/s."
           );
           FrozenCookies.hc_gain_time = Date.now();
           FrozenCookies.hc_gain = 0;
@@ -2984,9 +2984,9 @@ function autoCookie() {
         logEvent(
           "GC",
           "Starting " +
-            (hasClickBuff() ? "Clicking " : "") +
-            "Frenzy x" +
-            currentFrenzy
+          (hasClickBuff() ? "Clicking " : "") +
+          "Frenzy x" +
+          currentFrenzy
         );
       }
       if (FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] == null) {
